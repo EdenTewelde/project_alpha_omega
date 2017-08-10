@@ -6,32 +6,12 @@ class Network(val capacity: Int, val listOfCars: MutableList<Car>) {
 
     fun overCapacity(): Boolean {
         // tallies up the number of cars on the road
-        val numberOfCarsDriving = listOfCarsDriving.size
+        val numberOfCarsDriving = this.listOfCarsDriving.size
         // compares it to its own capacity
-        if (this.capacity >= numberOfCarsDriving) {
-            return false
-        } else {
-            return true
-        }
-    }
-
-    fun analyzeNetwork() {
-        for (car in this.listOfCars) {
-            if (car.wantsToDrive == true) {
-                this.listOfCarsDriving.add(car)
-            }
-        }
-        val overCapacity = this.overCapacity()
-        for (car in listOfCars) {
-            car.isDelayed = overCapacity
-        }
-    }
-
-    fun randomize() : Boolean {
+        val utilization = (numberOfCarsDriving/this.capacity)*100
         var isDelayed = false
         val randomNumber = Random()
         val random = randomNumber.nextInt(101)
-        val utilization = (this.listOfCarsDriving.size/this.capacity)
         if (utilization < 50) {
             when (random) {
                 in 0..5 -> isDelayed = true
@@ -69,5 +49,17 @@ class Network(val capacity: Int, val listOfCars: MutableList<Car>) {
             }
         }
         return isDelayed
+    }
+
+    fun analyzeNetwork() {
+        for (car in this.listOfCars) {
+            if (car.wantsToDrive == true) {
+                this.listOfCarsDriving.add(car)
+            }
+        }
+        for (car in listOfCars) {
+            val overCapacity = this.overCapacity()
+            car.isDelayed = overCapacity
+        }
     }
 }
