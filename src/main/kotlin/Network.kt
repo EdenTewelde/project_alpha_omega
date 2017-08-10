@@ -10,8 +10,7 @@ class Network(val capacity: Int, val listOfCars: MutableList<Car>) {
         // compares it to its own capacity
         val utilization = (numberOfCarsDriving/this.capacity)*100
         var isDelayed = false
-        val randomNumber = Random()
-        val random = randomNumber.nextInt(101)
+        val random = Random().nextInt(101)
         if (utilization < 50) {
             when (random) {
                 in 0..5 -> isDelayed = true
