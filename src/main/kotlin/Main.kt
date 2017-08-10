@@ -63,16 +63,22 @@ fun scenario(numberOfCars: Int, capacity: Int) {
     * The road network is analyzed and it is printed whether a car is delayed or not
     */
     val listOfCars: MutableList<Car> = mutableListOf()
+    val road = Network(capacity, listOfCars)
     val hours = 24
+    var wantsToDrive = Random().nextBoolean()
     for (hour in 1..hours) {
         for (i in 1..numberOfCars) {
-            val newCar = Car(i, Random().nextBoolean())
+            val newCar = Car(i, wantsToDrive)
             listOfCars.add(newCar)
+        }
+        road.analyzeNetwork()
+        for (car in road.listOfCars) {
+            if (car.wantsToDrive && car.isDelayed == true) {
+                wantsToDrive = true
+            } else wantsToDrive = Random().nextBoolean()
         }
     }
 
-    val road = Network(capacity, listOfCars)
-    road.analyzeNetwork()
     for (car in road.listOfCars) {
         println("Does car #" + car.id + " want to drive? " + car.wantsToDrive)
         if (car.wantsToDrive == true) {
